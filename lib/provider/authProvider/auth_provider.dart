@@ -43,10 +43,10 @@ class AuthenticationProvider extends ChangeNotifier {
           await http.post(Uri.parse(url), body: json.encode(body));
 
       if (req.statusCode == 200 || req.statusCode == 201) {
-                final res = json.decode(req.body);
+        final res = json.decode(req.body);
 
         print(req.body);
-         _isLoading = false;
+        _isLoading = false;
         _resMessage = "Account created!";
         notifyListeners();
       } else {
@@ -70,19 +70,17 @@ class AuthenticationProvider extends ChangeNotifier {
   }
 
   //Login
-    void loginUser({
+  void loginUser({
     required String email,
-   
     required String password,
     BuildContext? context,
   }) async {
     _isLoading = true;
     notifyListeners();
 
-    String url = "$requestBaseUrl/login/";
+    String url = "$requestBaseUrl/users/login";
 
     final body = {
-
       "email": email,
       "password": password,
     };
@@ -102,6 +100,7 @@ class AuthenticationProvider extends ChangeNotifier {
       } else {
         final res = json.decode(req.body);
 
+        _resMessage = res['message'];
         print(res);
         _isLoading = false;
         notifyListeners();
@@ -117,5 +116,10 @@ class AuthenticationProvider extends ChangeNotifier {
 
       print(":::: $e");
     }
+  }
+
+  void clear() {
+    _resMessage = "";
+    notifyListeners();
   }
 }
