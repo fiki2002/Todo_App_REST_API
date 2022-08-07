@@ -86,13 +86,16 @@ class _RegisterPageState extends State<RegisterPage> {
                             message: 'Please, input all fields',
                             context: context,
                           );
+                        }else{
+                           auth.registerUser(
+                            email: _email.text.trim(),
+                            firstName: _firstName.text.trim(),
+                            lastName: _lastName.text.trim(),
+                            password: _password.text.trim(),
+                            context: context,
+                          );
                         }
-                        auth.registerUser(
-                          email: _email.text.trim(),
-                          firstName: _firstName.text.trim(),
-                          lastName: _lastName.text.trim(),
-                          password: _password.text.trim(),
-                        );
+                       
                       },
                       context: context,
                       status: auth.isLoading,

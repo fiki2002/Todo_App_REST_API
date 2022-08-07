@@ -73,6 +73,7 @@ class _LoginPageState extends State<LoginPage> {
                           auth.loginUser(
                             email: _email.text.trim(),
                             password: _password.text.trim(),
+                            context: context,
                           );
                         }
                       },

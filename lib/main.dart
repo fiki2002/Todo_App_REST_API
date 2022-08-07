@@ -15,17 +15,18 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-       ChangeNotifierProvider(create: (_) => AuthenticationProvider()),
+        ChangeNotifierProvider(create: (_) => AuthenticationProvider()),
       ],
-      child:  MaterialApp(
-          theme: ThemeData(
-            appBarTheme: AppBarTheme(
-              color: primaryColor,
-            ),
-            primaryColor: primaryColor,
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          appBarTheme: AppBarTheme(
+            color: primaryColor,
           ),
-          home: const SplashScreen(),
+          primaryColor: primaryColor,
         ),
+        home: const SplashScreen(),
+      ),
     );
   }
 }

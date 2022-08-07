@@ -25,7 +25,7 @@ class AuthenticationProvider extends ChangeNotifier {
     required String firstName,
     required String lastName,
     required String password,
-    BuildContext? context,
+    required BuildContext context,
   }) async {
     _isLoading = true;
     notifyListeners();
@@ -47,10 +47,14 @@ class AuthenticationProvider extends ChangeNotifier {
       if (req.statusCode == 200 || req.statusCode == 201) {
         final res = json.decode(req.body);
 
-        print(req.body);
+        print(res);
         _isLoading = false;
         _resMessage = "Account created!";
         notifyListeners();
+
+
+        PageNavigator(ctext: context).nextPageOnly(page: const LoginPage());
+
       } else {
         final res = json.decode(req.body);
         _resMessage = res['message'];
@@ -76,7 +80,7 @@ class AuthenticationProvider extends ChangeNotifier {
   void loginUser({
     required String email,
     required String password,
-    BuildContext? context,
+   required BuildContext context,
   }) async {
     _isLoading = true;
     notifyListeners();
@@ -101,8 +105,7 @@ class AuthenticationProvider extends ChangeNotifier {
         _resMessage = "Login Successful!";
         notifyListeners();
 
-        PageNavigator(ctext: context).nextPageOnly(page: const LoginPage());
-        
+
       } else {
         final res = json.decode(req.body);
 
