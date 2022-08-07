@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 import '../../constants/url.dart';
+import '../../screens/auth/login.dart';
+import '../../utils/routers.dart';
 
 class AuthenticationProvider extends ChangeNotifier {
 //Base Url
@@ -98,6 +100,9 @@ class AuthenticationProvider extends ChangeNotifier {
         _isLoading = false;
         _resMessage = "Login Successful!";
         notifyListeners();
+
+        PageNavigator(ctext: context).nextPageOnly(page: const LoginPage());
+        
       } else {
         final res = json.decode(req.body);
 
