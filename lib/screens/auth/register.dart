@@ -6,6 +6,7 @@ import 'package:todo_app/widgets/custom_button.dart';
 import 'package:todo_app/widgets/custom_textfield.dart';
 
 import '../../utils/routers.dart';
+import '../../utils/snackbar.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({Key? key}) : super(key: key);
@@ -67,11 +68,34 @@ class _RegisterPageState extends State<RegisterPage> {
                     auth,
                     child,
                   ) {
+                    WidgetsBinding.instance!.addPostFrameCallback((_) {
+                      if (auth.resMessage != '') {
+                        showMessage(message: auth.resMessage, context: context);
+
+                        auth.clear();
+                      }
+                    });
                     return customButton(
                       text: 'Create Account',
-                      tap: () {},
+                      tap: () {
+                        if (_firstName.text.isEmpty ||
+                            _password.text.isEmpty ||
+                            _lastName.text.isEmpty ||
+                            _email.text.isEmpty) {
+                          showMessage(
+                            message: 'Please, input all fields',
+                            context: context,
+                          );
+                        }
+                        auth.registerUser(
+                          email: _email.text.trim(),
+                          firstName: _firstName.text.trim(),
+                          lastName: _lastName.text.trim(),
+                          password: _password.text.trim(),
+                        );
+                      },
                       context: context,
-                      status: false,
+                      status: auth.isLoading,
                     );
                   }),
                   const SizedBox(
@@ -79,7 +103,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   ),
                   GestureDetector(
                     onTap: () {
-                      PageNavigator(ctext: context).nextPage(
+                      PageNavigator(ctext: context).previousPage(
                         page: const LoginPage(),
                       );
                     },

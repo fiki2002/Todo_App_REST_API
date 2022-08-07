@@ -51,6 +51,7 @@ class AuthenticationProvider extends ChangeNotifier {
         notifyListeners();
       } else {
         final res = json.decode(req.body);
+        _resMessage = res['message'];
 
         print(res);
         _isLoading = false;
@@ -93,7 +94,7 @@ class AuthenticationProvider extends ChangeNotifier {
       if (req.statusCode == 200 || req.statusCode == 201) {
         final res = json.decode(req.body);
 
-        print(req.body);
+        print(res);
         _isLoading = false;
         _resMessage = "Login Successful!";
         notifyListeners();

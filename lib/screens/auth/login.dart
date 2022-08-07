@@ -49,8 +49,11 @@ class _LoginPageState extends State<LoginPage> {
                     title: 'Password',
                     controller: _password,
                   ),
-                  Consumer<AuthenticationProvider>(
-                      builder: (context, auth, child) {
+                  Consumer<AuthenticationProvider>(builder: (
+                    context,
+                    auth,
+                    child,
+                  ) {
                     WidgetsBinding.instance!.addPostFrameCallback((_) {
                       if (auth.resMessage != '') {
                         showMessage(message: auth.resMessage, context: context);

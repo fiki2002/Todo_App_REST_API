@@ -14,4 +14,9 @@ class PageNavigator {
     Navigator.pushAndRemoveUntil(ctext!,
         MaterialPageRoute(builder: (context) => page!), (route) => false);
   }
+
+  void previousPage({Widget? page}) {
+    return Navigator.pop(
+        ctext!, CupertinoPageRoute(builder: ((context) => page!)));
+  }
 }
