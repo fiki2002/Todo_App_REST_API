@@ -7,7 +7,7 @@ import 'package:http/http.dart' as http;
 import 'package:todo_app/provider/database/db_provider.dart';
 
 import '../../constants/url.dart';
-import '../../screens/auth/home_page.dart';
+import '../../screens/taskPage/home_page.dart';
 import '../../screens/auth/login.dart';
 import '../../utils/routers.dart';
 

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:todo_app/provider/database/db_provider.dart';
-import 'package:todo_app/screens/auth/home_page.dart';
+import 'package:todo_app/screens/taskPage/home_page.dart';
 import 'package:todo_app/screens/auth/login.dart';
 import 'package:todo_app/utils/routers.dart';
 

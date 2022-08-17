@@ -25,6 +25,9 @@ class MyApp extends StatelessWidget {
           appBarTheme: AppBarTheme(
             color: primaryColor,
           ),
+          floatingActionButtonTheme: FloatingActionButtonThemeData(
+            backgroundColor: primaryColor,
+          ),
           primaryColor: primaryColor,
         ),
         home: const SplashScreen(),
