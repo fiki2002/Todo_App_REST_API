@@ -34,7 +34,7 @@ class _SplashScreenState extends State<SplashScreen> {
       PageNavigator(ctext: context).nextPageOnly(page: const LoginPage());
 
         }else {
-                PageNavigator(ctext: context).nextPageOnly(page: const HomePage());
+          PageNavigator(ctext: context).nextPageOnly(page: const HomePage());
 
         }
       });

@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:todo_app/provider/database/db_provider.dart';
+
+import '../../utils/snackbar.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -16,7 +19,8 @@ class _HomePageState extends State<HomePage> {
         actions: [
           IconButton(
             onPressed: () {
-              
+              showMessage(message: 'You have logged out', context: context);
+              DatabaseProvider().logOut(context);
             },
             icon: const Icon(Icons.exit_to_app),
           ),
