@@ -1,6 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../screens/auth/login.dart';
+import '../../utils/routers.dart';
+
 class DatabaseProvider extends ChangeNotifier {
   //create an instance of the shared preference
   final Future<SharedPreferences> _pref = SharedPreferences.getInstance();
@@ -56,5 +59,11 @@ class DatabaseProvider extends ChangeNotifier {
       notifyListeners();
       return '';
     }
+  }
+
+  void logOut(BuildContext context) async {
+    final value = await _pref;
+    value.clear();
+   PageNavigator(ctext: context).nextPageOnly(page: const LoginPage());
   }
 }
