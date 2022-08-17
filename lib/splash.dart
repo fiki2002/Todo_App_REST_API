@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:todo_app/provider/database/db_provider.dart';
+import 'package:todo_app/screens/auth/home_page.dart';
 import 'package:todo_app/screens/auth/login.dart';
 import 'package:todo_app/utils/routers.dart';
 
@@ -27,7 +29,15 @@ class _SplashScreenState extends State<SplashScreen> {
 
   void navigate() {
     Future.delayed(const Duration(seconds: 3), () {
+      DatabaseProvider().getToken().then((value) {
+        if (value == '' /*That is user not logged in */){
       PageNavigator(ctext: context).nextPageOnly(page: const LoginPage());
+
+        }else {
+                PageNavigator(ctext: context).nextPageOnly(page: const HomePage());
+
+        }
+      });
     });
   }
 }

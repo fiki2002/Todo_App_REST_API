@@ -1,10 +1,13 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:todo_app/provider/database/db_provider.dart';
 
 import '../../constants/url.dart';
+import '../../screens/auth/home_page.dart';
 import '../../screens/auth/login.dart';
 import '../../utils/routers.dart';
 
@@ -38,7 +41,9 @@ class AuthenticationProvider extends ChangeNotifier {
       "email": email,
       "password": password,
     };
-    print(body);
+    if (kDebugMode) {
+      print(body);
+    }
 
     try {
       http.Response req =
@@ -47,19 +52,21 @@ class AuthenticationProvider extends ChangeNotifier {
       if (req.statusCode == 200 || req.statusCode == 201) {
         final res = json.decode(req.body);
 
-        print(res);
+        if (kDebugMode) {
+          print(res);
+        }
         _isLoading = false;
         _resMessage = "Account created!";
         notifyListeners();
 
-
         PageNavigator(ctext: context).nextPageOnly(page: const LoginPage());
-
       } else {
         final res = json.decode(req.body);
         _resMessage = res['message'];
 
-        print(res);
+        if (kDebugMode) {
+          print(res);
+        }
         _isLoading = false;
         notifyListeners();
       }
@@ -72,7 +79,9 @@ class AuthenticationProvider extends ChangeNotifier {
       _resMessage = "Please try again";
       notifyListeners();
 
-      print(":::: $e");
+      if (kDebugMode) {
+        print(":::: $e");
+      }
     }
   }
 
@@ -80,7 +89,7 @@ class AuthenticationProvider extends ChangeNotifier {
   void loginUser({
     required String email,
     required String password,
-   required BuildContext context,
+    required BuildContext context,
   }) async {
     _isLoading = true;
     notifyListeners();
@@ -91,7 +100,9 @@ class AuthenticationProvider extends ChangeNotifier {
       "email": email,
       "password": password,
     };
-    print(body);
+    if (kDebugMode) {
+      print(body);
+    }
 
     try {
       http.Response req =
@@ -100,17 +111,27 @@ class AuthenticationProvider extends ChangeNotifier {
       if (req.statusCode == 200 || req.statusCode == 201) {
         final res = json.decode(req.body);
 
-        print(res);
+        if (kDebugMode) {
+          print(res);
+        }
         _isLoading = false;
         _resMessage = "Login Successful!";
         notifyListeners();
+        //if the status code is successful that is 200
+        //save users data and then navigate to homepage
+        final userId = res['user']['id'];
+        final token = res['authToken'];
 
-        
+        DatabaseProvider().saveToken(token);
+        DatabaseProvider().saveUserId(userId);
+        PageNavigator(ctext: context).nextPageOnly(page: const HomePage());
       } else {
         final res = json.decode(req.body);
 
         _resMessage = res['message'];
-        print(res);
+        if (kDebugMode) {
+          print(res);
+        }
         _isLoading = false;
         notifyListeners();
       }
@@ -123,7 +144,9 @@ class AuthenticationProvider extends ChangeNotifier {
       _resMessage = "Please try again";
       notifyListeners();
 
-      print(":::: $e");
+      if (kDebugMode) {
+        print(":::: $e");
+      }
     }
   }
 
