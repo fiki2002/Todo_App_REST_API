@@ -34,6 +34,15 @@ class _TaskDetailsPageState extends State<TaskDetailsPage> {
     return Scaffold(
         appBar: AppBar(
           title: const Text('Tasks Details'),
+          actions: [
+            IconButton(
+              icon: const Icon(
+                Icons.delete,
+                color: Colors.white,
+              ),
+              onPressed: () {},
+            ),
+          ],
         ),
         body: CustomScrollView(
           slivers: [
@@ -52,6 +61,7 @@ class _TaskDetailsPageState extends State<TaskDetailsPage> {
                     ),
                     customButton(
                       status: false,
+                      text: 'Update',
                       context: context,
                       tap: () {},
                     )
