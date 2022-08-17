@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:todo_app/provider/database/db_provider.dart';
 import 'package:todo_app/screens/auth/login.dart';
+import 'package:todo_app/screens/taskPage/add_task_page.dart';
 import 'package:todo_app/screens/taskPage/local_widget/task_view_container.dart';
 
 import '../../styles/colors.dart';
@@ -47,7 +48,7 @@ class _HomePageState extends State<HomePage> {
                       GestureDetector(
                         onTap: () {
                           PageNavigator(ctext: context)
-                              .nextPage(page: const LoginPage());
+                              .nextPage(page: const CreateTaskPage());
                         },
                         child: Text(
                           'Create a task',
@@ -70,7 +71,9 @@ class _HomePageState extends State<HomePage> {
                   ),
                 )),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () => PageNavigator(ctext: context).nextPage(
+          page: const CreateTaskPage(),
+        ),
         mini: true,
         child: const Icon(Icons.add),
         tooltip: 'Create Tasks',
