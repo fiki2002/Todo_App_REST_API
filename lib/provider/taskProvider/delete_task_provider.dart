@@ -1,13 +1,15 @@
 
 import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 import '../../constants/url.dart';
+import '../../screens/taskPage/home_page.dart';
+import '../../utils/routers.dart';
 import '../database/db_provider.dart';
 
-
-class AddTaskProvider extends ChangeNotifier {
+class DeleteTaskProvider extends ChangeNotifier {
   final url = AppUrl.baseUrl;
 
   bool _status = false;
@@ -18,26 +20,16 @@ class AddTaskProvider extends ChangeNotifier {
 
   String get getResponse => _response;
 
-  ///To get graphql client
-  ///Add task method
-  void addTask({String? title}) async {
+  
+  void deleteTask({String? taskId, BuildContext? context}) async {
     final token = await DatabaseProvider().getToken();
-    final userId = await DatabaseProvider().getUserId();
     _status = true;
     notifyListeners();
 
-    final _url = "$url/tasks/";
+    final _url = "$url/tasks/$taskId";
 
-    final body = {
-      "title": title,
-      "startTime": "2022-08-18T11:01:00.000+00:00",
-      "endTime": "2022-09-18T12:00:00.000+00:00",
-      "userId": userId,
-      "reminderPeriod": "2022-07-19T12:00:00.000+00:00"
-    };
-
-    final result = await http.post(Uri.parse(_url),
-        body: json.encode(body), headers: {'Authorization': 'Bearer $token'});
+    final result = await http
+        .delete(Uri.parse(_url), headers: {'Authorization': "Bearer $token"});
 
     print(result.statusCode);
 
@@ -49,13 +41,13 @@ class AddTaskProvider extends ChangeNotifier {
       _response = json.decode(res)['message'];
 
       notifyListeners();
+      PageNavigator(ctext: context).nextPageOnly(page: const HomePage());
     } else {
       final res = result.body;
       print(res);
+      _status = false;
 
       _response = json.decode(res)['message'];
-
-      _status = false;
 
       notifyListeners();
     }

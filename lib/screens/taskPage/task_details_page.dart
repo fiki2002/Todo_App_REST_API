@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:todo_app/widgets/custom_textfield.dart';
 
+import '../../styles/colors.dart';
 import '../../widgets/custom_button.dart';
 
 class TaskDetailsPage extends StatefulWidget {
@@ -36,9 +37,9 @@ class _TaskDetailsPageState extends State<TaskDetailsPage> {
           title: const Text('Tasks Details'),
           actions: [
             IconButton(
-              icon: const Icon(
+              icon: Icon(
                 Icons.delete,
-                color: Colors.white,
+                color: white,
               ),
               onPressed: () {},
             ),

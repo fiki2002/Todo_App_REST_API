@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:todo_app/provider/database/db_provider.dart';
-import 'package:todo_app/screens/auth/login.dart';
 import 'package:todo_app/screens/taskPage/add_task_page.dart';
 import 'package:todo_app/screens/taskPage/local_widget/task_view_container.dart';
 
@@ -63,10 +62,10 @@ class _HomePageState extends State<HomePage> {
                     10,
                     (index) => TaskField(
                       initial: '${index + 1}',
-                      title: 'I wanna fuck someone so bad',
-                      subtitle: 'Fuck',
+                      title: 'I am gonna be great',
+                      subtitle: 'Yes!',
                       isCompleted: false,
-                      taskId: 'Fk',
+                      taskId: 'Gr',
                     ),
                   ),
                 )),
