@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:todo_app/provider/database/db_provider.dart';
+import 'package:todo_app/provider/taskProvider/get_task_service.dart';
 import 'package:todo_app/screens/taskPage/add_task_page.dart';
 import 'package:todo_app/screens/taskPage/local_widget/task_view_container.dart';
 
@@ -17,6 +18,12 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   List tasks = ['hi'];
   @override
+  void initState() {
+    super.initState();
+    GetUserTask().getTask();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -32,43 +39,44 @@ class _HomePageState extends State<HomePage> {
         ],
       ),
       body: Container(
-          padding: const EdgeInsets.all(20),
-          child: tasks.isEmpty
-              ? Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Text(
-                        'Todo List is empty',
-                        style: TextStyle(
-                            fontSize: 24, fontWeight: FontWeight.bold),
-                      ),
-                      const SizedBox(height: 15),
-                      GestureDetector(
-                        onTap: () {
-                          PageNavigator(ctext: context)
-                              .nextPage(page: const CreateTaskPage());
-                        },
-                        child: Text(
-                          'Create a task',
-                          style: TextStyle(fontSize: 18, color: grey),
-                        ),
-                      ),
-                    ],
-                  ),
-                )
-              : ListView(
-                  children: List.generate(
-                    10,
-                    (index) => TaskField(
-                      initial: '${index + 1}',
-                      title: 'I am gonna be great',
-                      subtitle: 'Yes!',
-                      isCompleted: false,
-                      taskId: 'Gr',
+        padding: const EdgeInsets.all(20),
+        child: tasks.isEmpty
+            ? Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Text(
+                      'Todo List is empty',
+                      style:
+                          TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                     ),
+                    const SizedBox(height: 15),
+                    GestureDetector(
+                      onTap: () {
+                        PageNavigator(ctext: context)
+                            .nextPage(page: const CreateTaskPage());
+                      },
+                      child: Text(
+                        'Create a task',
+                        style: TextStyle(fontSize: 18, color: grey),
+                      ),
+                    ),
+                  ],
+                ),
+              )
+            : ListView(
+                children: List.generate(
+                  10,
+                  (index) => TaskField(
+                    initial: '${index + 1}',
+                    title: 'I am gonna be great',
+                    subtitle: 'Yes!',
+                    isCompleted: false,
+                    taskId: 'Gr',
                   ),
-                )),
+                ),
+              ),
+      ),
       floatingActionButton: FloatingActionButton(
         onPressed: () => PageNavigator(ctext: context).nextPage(
           page: const CreateTaskPage(),
