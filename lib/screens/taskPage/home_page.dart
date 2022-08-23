@@ -4,6 +4,7 @@ import 'package:todo_app/provider/taskProvider/get_task_service.dart';
 import 'package:todo_app/screens/taskPage/add_task_page.dart';
 import 'package:todo_app/screens/taskPage/local_widget/task_view_container.dart';
 
+import '../../model/task_model.dart';
 import '../../styles/colors.dart';
 import '../../utils/routers.dart';
 import '../../utils/snackbar.dart';
@@ -17,11 +18,11 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   List tasks = ['hi'];
-  @override
-  void initState() {
-    super.initState();
-    GetUserTask().getTask();
-  }
+
+  // void initState() {
+  //   super.initState();
+  //   GetUserTask().getTask();
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -40,42 +41,63 @@ class _HomePageState extends State<HomePage> {
       ),
       body: Container(
         padding: const EdgeInsets.all(20),
-        child: tasks.isEmpty
-            ? Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Text(
-                      'Todo List is empty',
-                      style:
-                          TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-                    ),
-                    const SizedBox(height: 15),
-                    GestureDetector(
-                      onTap: () {
-                        PageNavigator(ctext: context)
-                            .nextPage(page: const CreateTaskPage());
-                      },
-                      child: Text(
-                        'Create a task',
-                        style: TextStyle(fontSize: 18, color: grey),
+        child: FutureBuilder<TaskModel>(
+          future: GetUserTask().getTask(),
+          builder: ((context, snapshot) {
+            print(snapshot);
+            if (snapshot.hasError) {
+              return const Center(child: Text('Error Occured'));
+            } else if (snapshot.hasData) {
+              if (snapshot.data!.tasks == null) {
+                return Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Text(
+                        'Todo List is empty',
+                        style: TextStyle(
+                            fontSize: 24, fontWeight: FontWeight.bold),
                       ),
-                    ),
-                  ],
-                ),
-              )
-            : ListView(
-                children: List.generate(
-                  10,
-                  (index) => TaskField(
-                    initial: '${index + 1}',
-                    title: 'I am gonna be great',
-                    subtitle: 'Yes!',
-                    isCompleted: false,
-                    taskId: 'Gr',
+                      const SizedBox(height: 15),
+                      GestureDetector(
+                        onTap: () {
+                          PageNavigator(ctext: context)
+                              .nextPage(page: const CreateTaskPage());
+                        },
+                        child: Text(
+                          'Create a task',
+                          style: TextStyle(fontSize: 18, color: grey),
+                        ),
+                      ),
+                    ],
                   ),
+                );
+              } else {
+                return ListView(
+                  children: List.generate(
+                    snapshot.data!.tasks!.length,
+                    (index) {
+                      final data = snapshot.data!.tasks![index];
+                      return TaskField(
+                        initial: '${index + 1}',
+                        title: data.title,
+                        subtitle: data.startTime.toString(),
+                        isCompleted: false,
+                        taskId: data.id.toString(),
+                      );
+                    },
+                  ),
+                );
+              }
+            } else {
+              return Center(
+                child: CircularProgressIndicator(
+                  color: primaryColor,
                 ),
-              ),
+              );
+            }
+          }),
+        ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () => PageNavigator(ctext: context).nextPage(
